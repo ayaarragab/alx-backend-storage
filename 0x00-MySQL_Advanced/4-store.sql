@@ -4,6 +4,6 @@ DELIMITER //
 CREATE TRIGGER newWidgetSale AFTER INSERT ON orders 
     FOR EACH ROW
     BEGIN
-         UPDATE items SET quantity = quantity - 1 WHERE orders.item_name = NEW.name;
+         UPDATE items SET quantity = quantity - NEW.number WHERE orders.item_name = NEW.name;
     END //
 DELIMITER ;
