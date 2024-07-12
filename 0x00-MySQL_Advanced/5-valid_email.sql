@@ -1,7 +1,7 @@
 -- SQL script that ranks country origins of bands
 -- ordered by the number of (non-unique) fans
 DELIMITER //
-CREATE TRIGGER newWidgetSale AFTER UPDATE ON users(email)
+CREATE TRIGGER newWidgetSale BEFORE UPDATE ON users(email)
 FOR EACH ROW
 BEGIN
 IF NEW.email <> OLD.email
