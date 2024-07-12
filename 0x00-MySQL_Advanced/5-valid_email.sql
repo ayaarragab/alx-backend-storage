@@ -4,5 +4,5 @@ CREATE TRIGGER newWidgetSale AFTER UPDATE ON users(email)
 FOR EACH ROW
 IF NEW.email <> OLD.email
 THEN
-    UPDATE users SET valid_email = 0 WHERE id = NEW.id;
+    SET NEW.valid_email = 0;
 END IF;
