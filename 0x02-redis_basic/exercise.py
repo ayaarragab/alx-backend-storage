@@ -5,6 +5,26 @@ Cache class Module excercise
 import redis
 from uuid import uuid4
 from typing import Union, Callable, TypeVar, Optional
+from functools import wraps
+
+
+def count_calls(method: Callable) -> Callable:
+    """
+    decorator that takes a single method Callable
+    argument and returns a Callable
+    """
+    @wraps(method)
+    def increment(self, *args, **kwargs):
+        """
+        function that increments the count for that
+        key every time the method is called and returns
+        the value returned by the original method.
+        """
+        key = method.__qualname__
+        print(type(key))
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+    return increment
 
 
 class Cache:
@@ -21,6 +41,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         store method that takes a data argument
@@ -33,7 +54,8 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
+    def get(self, key: str, fn: Optional[Callable]
+            = None) -> Union[str, bytes, int, float]:
         """
         simulation to redis.get()
         """
