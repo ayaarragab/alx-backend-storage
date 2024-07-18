@@ -18,7 +18,7 @@ def call_history(method: Callable) -> Callable:
     outputs = methodName + ":outputs"
 
     @wraps(method)
-    def wrapper(self, *args, **kwargs): # sourcery skip: avoid-builtin-shadow
+    def wrapper(self, *args, **kwargs):  # sourcery skip: avoid-builtin-shadow
         """
         function that increments the count for that
         key every time the method is called and returns
@@ -47,6 +47,21 @@ def count_calls(method: Callable) -> Callable:
         self._redis.incr(key)
         return method(self, *args, **kwargs)
     return increment
+
+
+def reply(function: Callable) -> str:
+    """
+    display the history of
+    calls of a particular function.
+    """
+    storage = redis.Redis()
+    method_name = function.__qualname__
+    inputs = storage.lrange(method_name + ":inputs", 0, -1)
+    outputs = storage.lrange(method_name + ":outputs", 0, -1)
+    l_in_s = [s.decode('utf-8') for s in inputs]
+    l_out_s = [s.decode('utf-8') for s in outputs]
+    for i in range(0, len(l_in_s)):
+        print(method_name + f'(*{l_in_s[i]}) -> {l_out_s[i]}')
 
 
 class Cache:
