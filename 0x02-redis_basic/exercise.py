@@ -12,7 +12,7 @@ class Cache:
     Cache class
     """
 
-    def __init__(self: object):
+    def __init__(self):
         """
         store an instance
         of the Redis client as a private
@@ -21,7 +21,7 @@ class Cache:
         self._redis: redis.Redis = redis.Redis()
         self._redis.flushdb()
 
-    def store(self: object, data: Union[str, bytes, int, float]) -> str:
+    def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         store method that takes a data argument
         and returns a string.
