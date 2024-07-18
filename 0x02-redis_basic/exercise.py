@@ -4,7 +4,7 @@ Cache class Module excercise
 """
 import redis
 from uuid import uuid4
-from typing import Union
+from typing import Union, Callable, TypeVar
 
 
 class Cache:
@@ -32,3 +32,28 @@ class Cache:
         key: str = str(uuid4())
         self._redis.set(key, data)
         return key
+
+    def get(self, key: str, fn: Callable) -> None | TypeVar:
+        """
+        simulation to redis.get()
+        """
+        if not key:
+            return None
+        return fn(self._redis.get((key)))
+
+    def get_str(self, key: str) -> str:
+        """
+        convert bytes format to string
+        """
+        return (self._redis.get(key)).decode('utf-8')
+
+    def get_int(self, key: str) -> str:
+        """
+        convert bytes format to string
+        """
+        value = self._redis.get(key)
+        try:
+            value = int(value.decode('utf-8'))
+        except Exception:
+            value = 0
+        return value
