@@ -18,7 +18,7 @@ class Cache:
         of the Redis client as a private
         variable named _redis
         """
-        self._redis: redis.Redis = redis.Redis()
+        self._redis = redis.Redis()
         self._redis.flushdb()
 
     def store(self, data: Union[str, bytes, int, float]) -> str:
