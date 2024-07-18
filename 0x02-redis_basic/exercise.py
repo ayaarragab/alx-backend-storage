@@ -4,7 +4,7 @@ Cache class Module excercise
 """
 import redis
 from uuid import uuid4
-import random
+from typing import Union
 
 
 class Cache:
@@ -21,7 +21,7 @@ class Cache:
         self._redis: redis.Redis = redis.Redis()
         self._redis.flushdb()
 
-    def store(self: object, data: str | bytes | int | float) -> str:
+    def store(self: object, data: Union[str, bytes, int, float]) -> str:
         """
         store method that takes a data argument
         and returns a string.
