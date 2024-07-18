@@ -24,7 +24,7 @@ def call_history(method: Callable) -> Callable:
         key every time the method is called and returns
         the value returned by the original method.
         """
-        self._redis.rpush(inputs, *args)
+        self._redis.rpush(inputs, str(*args))
         outut_data = method(*args, **kwargs)
         self._redis.rpush(outputs, outut_data)
         return outut_data
