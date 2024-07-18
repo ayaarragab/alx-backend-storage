@@ -21,9 +21,6 @@ class Cache:
         self._redis: redis.Redis = redis.Redis()
         self._redis.flushdb()
 
-
-    @count_calls
-    @call_history
     def store(self: object, data: Union[str, bytes, int, float]) -> str:
         """
         store method that takes a data argument
