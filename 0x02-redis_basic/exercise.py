@@ -25,7 +25,7 @@ def call_history(method: Callable) -> Callable:
         the value returned by the original method.
         """
         self._redis.rpush(inputs, str(args))
-        outut_data = method(*args, **kwargs)
+        outut_data = method(self, *args, **kwargs)
         self._redis.rpush(outputs, outut_data)
         return outut_data
     return wrapper
