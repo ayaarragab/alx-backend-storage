@@ -18,8 +18,8 @@ class Cache:
         of the Redis client as a private
         variable named _redis
         """
-        self.redisObj: redis.Redis = redis.Redis()
-        self.redisObj.flushdb()
+        self._redis: redis.Redis = redis.Redis()
+        self._redis.flushdb()
 
     def store(self: object, data: str | bytes | int | float) -> str:
         """
@@ -30,5 +30,5 @@ class Cache:
         and return the key.
         """
         key: str = str(uuid4())
-        self.redisObj.set(key, data)
+        self._redis.set(key, data)
         return key
