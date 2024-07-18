@@ -49,19 +49,24 @@ def count_calls(method: Callable) -> Callable:
     return increment
 
 
-def reply(function: Callable) -> str:
+def replay(method: Callable) -> None:
+    # sourcery skip: use-fstring-for-concatenation, use-fstring-for-formatting
     """
-    display the history of
-    calls of a particular function.
+    Replays the history of a function
+    Args:
+        method: The function to be decorated
+    Returns:
+        None
     """
-    storage = redis.Redis()
-    method_name = function.__qualname__
-    inputs = storage.lrange(method_name + ":inputs", 0, -1)
-    outputs = storage.lrange(method_name + ":outputs", 0, -1)
-    l_in_s = [s.decode('utf-8') for s in inputs]
-    l_out_s = [s.decode('utf-8') for s in outputs]
-    for i in range(0, len(l_in_s)):
-        print(method_name + f'(*{l_in_s[i]}) -> {l_out_s[i]}')
+    name = method.__qualname__
+    cache = redis.Redis()
+    calls = cache.get(name).decode("utf-8")
+    print("{} was called {} times:".format(name, calls))
+    inputs = cache.lrange(name + ":inputs", 0, -1)
+    outputs = cache.lrange(name + ":outputs", 0, -1)
+    for i, o in zip(inputs, outputs):
+        print("{}(*{}) -> {}".format(name, i.decode('utf-8'),
+                                     o.decode('utf-8')))
 
 
 class Cache:
