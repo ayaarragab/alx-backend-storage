@@ -4,7 +4,7 @@ Cache class Module excercise
 """
 import redis
 from uuid import uuid4
-from typing import Union, Callable, TypeVar
+from typing import Union, Callable, TypeVar, Optional
 
 
 class Cache:
@@ -33,13 +33,16 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Callable) -> None | TypeVar:
+    def get(self, key: str, fn: Optional[Callable] = None) -> None | TypeVar:
         """
         simulation to redis.get()
         """
         if not key:
             return None
-        return fn(self._redis.get((key)))
+        value = self._redis.get(key)
+        if fn:
+            value = fn(value)
+        return value
 
     def get_str(self, key: str) -> str:
         """
