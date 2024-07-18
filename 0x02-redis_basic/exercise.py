@@ -18,7 +18,7 @@ def call_history(method: Callable) -> Callable:
     outputs = methodName + ":outputs"
 
     @wraps(method)
-    def wrapper(self, *args, **kwargs):
+    def wrapper(self, *args, **kwargs): # sourcery skip: avoid-builtin-shadow
         """
         function that increments the count for that
         key every time the method is called and returns
