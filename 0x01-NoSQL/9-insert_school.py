@@ -11,4 +11,4 @@ def insert_school(mongo_collection, **kwargs):
     a new document in a collection based on kwarg
     """
     mongo_collection.insert_many(**kwargs)
-    return kwargs['id']
+    return kwargs['__id']
