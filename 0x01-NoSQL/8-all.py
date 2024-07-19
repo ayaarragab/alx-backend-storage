@@ -11,6 +11,4 @@ def list_all(mongo_collection):
     """
     client = MongoClient("mongodb://localhost:27017/")
     databases = client.list_database_names()
-    print("Databases:")
-    for db in databases:
-        print(db)
+    print(databases)
