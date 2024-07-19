@@ -1,3 +1,2 @@
 // a script that inserts a document in the collection school
-DATABASE_NAME=$1;
-DATABASE_NAME.school.insertOne( { name: “Holberton school” } );
+db.school.insert({ name : "Holberton school" })
