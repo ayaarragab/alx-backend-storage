@@ -9,5 +9,9 @@ def list_all(mongo_collection):
     """
     8. List all documents in Python
     """
-    client = MongoClient("mongodb://localhost:27017/")
-    print(mongo_collection.find())
+    documents = mongo_collection.find()
+
+    if documents.count() == 0:
+        return []
+
+    return documents
