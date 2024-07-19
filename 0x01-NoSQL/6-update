@@ -1,11 +1,9 @@
 // a script that adds a new attribute to a document in the collection school
 db.school.updateOne(
-   <filter>,
     {
         name:"Holberton school"
     }
-   <update>,
    {
-        address:“972 Mission street”
+        { $set: {address:“972 Mission street”}}
    }
 )
